@@ -600,9 +600,11 @@ func (d *DO) CreateInBatches(value interface{}, batchSize int) error {
 
 // Save ...
 func (d *DO) Save(value interface{}) error {
-	//return d.db.Clauses(clause.OnConflict{UpdateAll: true}).Create(value).Error
 	// TODO: not a good way to do this, but for test
-	return d.db.Create(value).Error
+	if d.db.Config.Dialector.Name() == "xugusql" {
+		return d.db.Create(value).Error
+	}
+	return d.db.Clauses(clause.OnConflict{UpdateAll: true}).Create(value).Error
 }
 
 // First ...
