@@ -12,8 +12,8 @@ import (
 	"gorm.io/gorm/clause"
 	"gorm.io/gorm/schema"
 
-	"gorm.io/gen/field"
-	"gorm.io/gen/helper"
+	"github.com/warjiang/gen/field"
+	"github.com/warjiang/gen/helper"
 )
 
 // ResultInfo query/execute info
@@ -600,6 +600,10 @@ func (d *DO) CreateInBatches(value interface{}, batchSize int) error {
 
 // Save ...
 func (d *DO) Save(value interface{}) error {
+	// TODO: not a good way to do this, but for test
+	if d.db.Config.Dialector.Name() == "xugusql" {
+		return d.db.Create(value).Error
+	}
 	return d.db.Clauses(clause.OnConflict{UpdateAll: true}).Create(value).Error
 }
 
