@@ -1,4 +1,4 @@
-module gorm.io/gen/tests
+module github.com/warjiang/gen/tests
 
 go 1.16
 
@@ -13,4 +13,4 @@ require (
 	gorm.io/plugin/dbresolver v1.4.0
 )
 
-replace gorm.io/gen => ../
+replace github.com/warjiang/gen => ../
